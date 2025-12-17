@@ -1,0 +1,88 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{DD}-{MM}-{YYYY}-{#####}",
+ "creation": "2025-12-08 18:02:22.454624",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "detail_section",
+  "logo",
+  "column_break_cwcc",
+  "footer_address",
+  "column_break_bdfw",
+  "domain",
+  "section_break_ihqq",
+  "advanced_print_soa_settings_details"
+ ],
+ "fields": [
+  {
+   "fieldname": "detail_section",
+   "fieldtype": "Section Break",
+   "label": "Detail"
+  },
+  {
+   "fieldname": "logo",
+   "fieldtype": "Attach Image",
+   "label": "Logo"
+  },
+  {
+   "fieldname": "section_break_ihqq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "advanced_print_soa_settings_details",
+   "fieldtype": "Table",
+   "label": "Advanced Print SOA Settings Details",
+   "options": "Advanced Print SOA Settings Details"
+  },
+  {
+   "fieldname": "column_break_cwcc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "footer_address",
+   "fieldtype": "Link",
+   "label": "Footer Address",
+   "link_filters": "[[\"Address\",\"is_your_company_address\",\"=\",1]]",
+   "options": "Address"
+  },
+  {
+   "fieldname": "column_break_bdfw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "domain",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Domain"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-12-12 12:56:21.417904",
+ "modified_by": "Administrator",
+ "module": "Advanced Print SOA",
+ "name": "Advanced Print SOA Settings",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

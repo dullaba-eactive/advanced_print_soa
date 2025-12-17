@@ -79,6 +79,12 @@ app_license = "mit"
 # 	"filters": "advanced_print_soa.utils.jinja_filters"
 # }
 
+
+process_soa_html = {
+    "Accounts Receivable": "advanced_print_soa/templates/custom_process_statement_of_accounts_accounts_receivable.html",
+    "General Ledger": "advanced_print_soa/templates/custom_process_statement_of_accounts.html"
+}
+
 # Installation
 # ------------
 

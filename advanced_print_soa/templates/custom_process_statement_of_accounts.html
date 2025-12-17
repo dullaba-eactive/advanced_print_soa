@@ -1,0 +1,331 @@
+<style>
+	.page-break {
+		page-break-after: always;
+    }
+	.print-format {
+		padding: 0mm;
+		font-size: 8.0pt !important;
+	}
+	@media print {
+    table {
+      width: 100%;
+      font-size: 9px;
+    }
+    .soa-title {
+      font-size: 25px;
+    }
+    .img-fluid {
+      max-width: 120px;
+      max-height: 120px;
+    }
+    td {
+      padding: 5px;
+    }
+  }
+</style>
+<table class="table w-100" style="font-size: 12px; line-height: 1.5;">
+  <tr>
+    <td class="col-8" style="vertical-align: top; padding-right: 15px;">
+      <!-- Statement Title -->
+      <div class="soa-title" style="font-size: 25px; color: #000; font-weight: 600; margin-bottom: 20px;">
+        STATEMENT OF ACCOUNT
+      </div>
+
+      <!-- Customer Information -->
+      <div class="mb-2">
+        <strong>Customer Name: </strong>{{ filters.party_name[0] }}
+      </div>
+
+      <!-- Customer Address -->
+      <div class="mb-2">
+        <strong>Customer Address: </strong>
+        {% set customer_address = frappe.db.get_value("Customer", filters.party[0], "customer_primary_address") %}
+        {% set customer_address_1 = frappe.db.get_value("Address", customer_address, "address_line1") %}
+        {% set customer_address_2 = frappe.db.get_value("Address", customer_address, "address_line2") %}
+        {% set customer_address_city = frappe.db.get_value("Address", customer_address, "city") %}
+        {% set customer_address_country = frappe.db.get_value("Address", customer_address, "country") %}
+        {% set customer_address_phone = frappe.db.get_value("Address", customer_address, "phone") %}
+        {% set customer_address_email = frappe.db.get_value("Address", customer_address, "email_id") %}
+        <div>{{ customer_address_1 }}, {{ customer_address_2 }}, {{ customer_address_city }}, {{ customer_address_country }}</div>
+      </div>
+
+      <!-- Contact -->
+      <div class="mb-2">
+        <strong>Contact: </strong>{{ customer_address_phone }}
+      </div>
+
+      <!-- Email -->
+      <div class="mb-2">
+        <strong>Email: </strong>{{ customer_address_email }}
+      </div>
+
+      <!-- Date Range -->
+      <div>
+        <strong>Date: </strong>{{ frappe.format(filters.from_date, 'Date') }} to {{ frappe.format(filters.to_date, 'Date') }}
+      </div>
+    </td>
+
+    <td class="col-4" style="vertical-align: top; text-align: right; padding-left: 15px;">
+      <!-- Company Logo -->
+      <div class="col-12 text-right">
+        {% set logo_link = frappe.db.get_single_value("Advanced Print SOA Settings", "logo") %}
+        <img src="{{ logo_link }}" class="img-fluid" style="max-width: 200px; max-height: 200px;"/>
+      </div>
+    </td>
+  </tr>
+</table>
+
+
+<table class="table table-bordered" style="font-size: 10px">
+	<thead>
+		<tr>
+			<th style="width: 9%">{{ _("Date") }}</th>
+			<th style="width: 30%">{{ _("Details") }}</th>
+			<th style="width: 20%">{{ _("CU In No / Ref") }}</th>
+			<th style="width: 13%">{{ _("Debit") }}</th>
+			<th style="width: 13%">{{ _("Credit") }}</th>
+			<th style="width: 15%">{{ _("Balance (Dr - Cr)") }}</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% set ns = namespace(page_no = 0) %}
+	{% for row in data %}
+		{% if loop.index % 25 == 1 and not loop.first %}
+			{% set ns.page_no = ns.page_no + 1 %}
+			</table>
+			<table width="100%" style="font-size: 10px; text-align: center;">
+				<tr>
+						<td>
+							<h3 style="color:#DA2128; margin: 0;">{{ filters.company }}</h3>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							{% set footer_address = frappe.db.get_single_value("Advanced Print SOA Settings", "footer_address") %}
+							{% set domain = frappe.db.get_single_value("Advanced Print SOA Settings", "domain") %}
+							{% set footer_address_1 = frappe.db.get_value("Address", footer_address, "address_line1") %}
+							{% set footer_address_2 = frappe.db.get_value("Address", footer_address, "address_line2") %}
+							{% set footer_address_city = frappe.db.get_value("Address", footer_address, "city") %}
+							{% set footer_address_country = frappe.db.get_value("Address", footer_address, "country") %}
+							{% set footer_address_phone = frappe.db.get_value("Address", footer_address, "phone") %}
+							{% set footer_address_email = frappe.db.get_value("Address", footer_address, "email_id") %}
+							
+							<span style="color:#DA2128;">Address:</span>
+							{{ footer_address_1 }}, {{ footer_address_2 }}, {{ footer_address_city }}, {{ footer_address_country }}
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<span style="color:#DA2128;">Mobile:</span> {{ footer_address_phone }}
+							<span style="color:#DA2128;">Email:</span> {{ footer_address_email }}
+							{{ domain }}
+						</td>
+					</tr>
+			</table>
+			<p class="text-right">Page - {{ns.page_no}}</p>
+			<p class="text-right">Please turn over ....</p>
+			<div class="page-break"></div>
+			<table class="table w-100" style="font-size: 12px; line-height: 1.5;">
+				<tr>
+					<td class="col-8" style="vertical-align: top; padding-right: 15px;">
+					<!-- Statement Title -->
+					<div class="soa-title" style="font-size: 25px; color: #000; font-weight: 600; margin-bottom: 20px;">
+						STATEMENT OF ACCOUNT
+					</div>
+
+					<!-- Customer Information -->
+					<div class="mb-2">
+						<strong>Customer Name: </strong>{{ filters.party_name[0] }}
+					</div>
+
+					<!-- Customer Address -->
+					<div class="mb-2">
+						<strong>Customer Address: </strong>
+						{% set customer_address = frappe.db.get_value("Customer", filters.party[0], "customer_primary_address") %}
+						{% set customer_address_1 = frappe.db.get_value("Address", customer_address, "address_line1") %}
+						{% set customer_address_2 = frappe.db.get_value("Address", customer_address, "address_line2") %}
+						{% set customer_address_city = frappe.db.get_value("Address", customer_address, "city") %}
+						{% set customer_address_country = frappe.db.get_value("Address", customer_address, "country") %}
+						{% set customer_address_phone = frappe.db.get_value("Address", customer_address, "phone") %}
+						{% set customer_address_email = frappe.db.get_value("Address", customer_address, "email_id") %}
+						<div>{{ customer_address_1 }}, {{ customer_address_2 }}, {{ customer_address_city }}, {{ customer_address_country }}</div>
+					</div>
+
+					<!-- Contact -->
+					<div class="mb-2">
+						<strong>Contact: </strong>{{ customer_address_phone }}
+					</div>
+
+					<!-- Email -->
+					<div class="mb-2">
+						<strong>Email: </strong>{{ customer_address_email }}
+					</div>
+
+					<!-- Date Range -->
+					<div>
+						<strong>Date: </strong>{{ frappe.format(filters.from_date, 'Date') }} to {{ frappe.format(filters.to_date, 'Date') }}
+					</div>
+					</td>
+
+					<td class="col-4" style="vertical-align: top; text-align: right; padding-left: 15px;">
+					<!-- Company Logo -->
+					<div class="col-12 text-right">
+						{% set logo_link = frappe.db.get_single_value("Advanced Print SOA Settings", "logo") %}
+						<img src="{{ logo_link }}" class="img-fluid" style="max-width: 200px; max-height: 200px;"/>
+					</div>
+					</td>
+				</tr>
+				</table>
+			<table class="table table-bordered" style="font-size: 10px">
+				<thead>
+					<tr>
+						<th style="width: 9%">{{ _("Date") }}</th>
+						<th style="width: 30%">{{ _("Details") }}</th>
+						<th style="width: 20%">{{ _("CU In No / Ref") }}</th>
+						<th style="width: 13%">{{ _("Debit") }}</th>
+						<th style="width: 13%">{{ _("Credit") }}</th>
+						<th style="width: 15%">{{ _("Balance (Dr - Cr)") }}</th>
+					</tr>
+				</thead>
+
+		{% endif %}
+		<tr>
+		{% if(row.posting_date) %}
+			<td>{{ frappe.format(row.posting_date, 'Date') }}</td>
+			<td>
+				{{ row.voucher_type }}
+				{{ row.voucher_no }}
+			</td>
+			<td>
+				{% if not (filters.party or filters.account)  %}
+					{{ row.party or row.account }}
+					<br>
+				{% endif %}
+				{% if row.remarks %}
+					<br>{{ _("Remarks") }}: {{ row.remarks }}
+				{% endif %}
+				{% if row.bill_no %}
+					<br>{{ _("Supplier Invoice No") }}: {{ row.bill_no }}
+				{% endif %}
+
+				{% if row.voucher_type == "Sales Invoice" %}
+					{% set ref_field = frappe.db.get_value("Advanced Print SOA Settings Details",{"ref_doctype":row.voucher_type},"ref_field") or "" %}
+					{% set cu_in_no = frappe.db.get_value("Sales Invoice",row.voucher_no,ref_field) %}
+					{{ cu_in_no }}				
+				{% elif row.voucher_type == "Payment Entry" %}
+					{% set ref_field = frappe.db.get_value("Advanced Print SOA Settings Details",{"ref_doctype":row.voucher_type},"ref_field") or "" %}
+					{% set cu_in_no = frappe.db.get_value("Payment Entry",row.voucher_no,ref_field) %}
+					{{ cu_in_no }}	
+				{% elif row.voucher_type == "Journal Entry" %}
+					{% set ref_field = frappe.db.get_value("Advanced Print SOA Settings Details",{"ref_doctype":row.voucher_type},"ref_field") or "" %}
+					{% set cu_in_no = frappe.db.get_value("Journal Entry",row.voucher_no,ref_field) %}
+					{{ cu_in_no or ""}}	
+				{% endif %}
+				
+			</td>
+			<td style="text-align: right">
+				{{ frappe.utils.fmt_money(row.debit, currency=filters.presentation_currency) }}</td>
+			<td style="text-align: right">
+				{{ frappe.utils.fmt_money(row.credit, currency=filters.presentation_currency) }}</td>
+		{% else %}
+			<td></td>
+			<td></td>
+			<td><b>{{ frappe.format(row.account, {fieldtype: "Link"}) or "&nbsp;" }}</b></td>
+			<td style="text-align: right">
+				{{ row.get('account', '') and frappe.utils.fmt_money(row.debit, currency=filters.presentation_currency) }}
+			</td>
+			<td style="text-align: right">
+				{{ row.get('account', '') and frappe.utils.fmt_money(row.credit, currency=filters.presentation_currency) }}
+			</td>
+		{% endif %}
+			<td style="text-align: right">
+				{{ frappe.utils.fmt_money(row.balance, currency=filters.presentation_currency) }}
+			</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+
+{% if ageing %}
+
+	<h4 class="text-center mb-4">{{ _("Ageing Report based on ") }} {{ ageing.ageing_based_on }}
+		{{ _("up to ") }} {{ frappe.format(filters.to_date, 'Date') }}
+	</h4>
+
+	<table class="table-responsive">
+		<tr>
+			<td>
+				<table class="table table-bordered table-striped">
+					<thead class="thead-light">
+						<tr>
+							<th class="text-center" style="width: 20%">0 - 30 Days</th>
+							<th class="text-center" style="width: 20%">30 - 60 Days</th>
+							<th class="text-center" style="width: 20%">60 - 90 Days</th>
+							<th class="text-center" style="width: 20%">90 - 120 Days</th>
+							<th class="text-center" style="width: 20%">Above 120 Days</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="text-right">{{ frappe.utils.fmt_money(ageing.range1, currency=filters.presentation_currency) }}</td>
+							<td class="text-right">{{ frappe.utils.fmt_money(ageing.range2, currency=filters.presentation_currency) }}</td>
+							<td class="text-right">{{ frappe.utils.fmt_money(ageing.range3, currency=filters.presentation_currency) }}</td>
+							<td class="text-right">{{ frappe.utils.fmt_money(ageing.range4, currency=filters.presentation_currency) }}</td>
+							<td class="text-right">{{ frappe.utils.fmt_money(ageing.range5, currency=filters.presentation_currency) }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+	</table>
+{% endif %}
+
+{% if terms_and_conditions %}
+	<table class="mt-4">
+		<tr>
+			<td>
+				<h5>{{ _("Terms and Conditions") }}</h5>
+				<table class="table">
+					<tr>
+						<td>{{ terms_and_conditions }}</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</div>
+{% endif %}
+
+
+<table width="100%" style="font-size: 10px; text-align: center;">
+	<tr>
+		<td>
+			<h3 style="color:#DA2128; margin: 0;">{{ filters.company }}</h3>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			{% set footer_address = frappe.db.get_single_value("Advanced Print SOA Settings", "footer_address") %}
+			{% set domain = frappe.db.get_single_value("Advanced Print SOA Settings", "domain") %}
+			{% set footer_address_1 = frappe.db.get_value("Address", footer_address, "address_line1") %}
+			{% set footer_address_2 = frappe.db.get_value("Address", footer_address, "address_line2") %}
+			{% set footer_address_city = frappe.db.get_value("Address", footer_address, "city") %}
+			{% set footer_address_country = frappe.db.get_value("Address", footer_address, "country") %}
+			{% set footer_address_phone = frappe.db.get_value("Address", footer_address, "phone") %}
+			{% set footer_address_email = frappe.db.get_value("Address", footer_address, "email_id") %}
+			
+			<span style="color:#DA2128;">Address:</span>
+			{{ footer_address_1 }}, {{ footer_address_2 }}, {{ footer_address_city }}, {{ footer_address_country }}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<span style="color:#DA2128;">Mobile:</span> {{ footer_address_phone }}
+			<span style="color:#DA2128;">Email:</span> {{ footer_address_email }}
+			{{ domain }}
+		</td>
+	</tr>
+</table>
+{% set ns.page_no = ns.page_no + 1 %}
+<p class="text-right">Page - {{ns.page_no }}</p>
+
+
