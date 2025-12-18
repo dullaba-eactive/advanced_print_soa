@@ -233,32 +233,34 @@
 			</table>
 			<table width="100%" style="font-size: 10px; text-align: center;">
 				<tr>
-						<td>
-							<h3 style="color:#DA2128; margin: 0;">{{ filters.company }}</h3>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							{% set footer_address = frappe.db.get_single_value("Advanced Print SOA Settings", "footer_address") %}
-							{% set domain = frappe.db.get_single_value("Advanced Print SOA Settings", "domain") %}
-							{% set footer_address_1 = frappe.db.get_value("Address", footer_address, "address_line1") %}
-							{% set footer_address_2 = frappe.db.get_value("Address", footer_address, "address_line2") %}
-							{% set footer_address_city = frappe.db.get_value("Address", footer_address, "city") %}
-							{% set footer_address_country = frappe.db.get_value("Address", footer_address, "country") %}
-							{% set footer_address_phone = frappe.db.get_value("Address", footer_address, "phone") %}
-							{% set footer_address_email = frappe.db.get_value("Address", footer_address, "email_id") %}
-							
-							<span style="color:#DA2128;">Address:</span>
-							{{ footer_address_1 }}, {{ footer_address_2 }}, {{ footer_address_city }}, {{ footer_address_country }}
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<span style="color:#DA2128;">Mobile:</span> {{ footer_address_phone }}
-							<span style="color:#DA2128;">Email:</span> {{ footer_address_email }}
-							{{ domain }}
-						</td>
-					</tr>
+					<td>
+						<h3 style="color:#DA2128; margin: 0;">{{ filters.company }}</h3>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						{% set footer_address = frappe.db.get_single_value("Advanced Print SOA Settings", "footer_address") %}
+						{% set domain = frappe.db.get_single_value("Advanced Print SOA Settings", "domain") %}
+						{% set footer_address_1 = frappe.db.get_value("Address", footer_address, "address_line1") %}
+						{% set footer_address_2 = frappe.db.get_value("Address", footer_address, "address_line2") %}
+						{% set footer_address_city = frappe.db.get_value("Address", footer_address, "city") %}
+						{% set footer_address_country = frappe.db.get_value("Address", footer_address, "country") %}
+						{% set footer_address_pincode = frappe.db.get_value("Address", footer_address, "pincode") %}
+						{% set footer_address_phone = frappe.db.get_value("Address", footer_address, "phone") %}
+						{% set footer_address_fax = frappe.db.get_value("Address", footer_address, "fax") %}
+						{% set footer_address_email = frappe.db.get_value("Address", footer_address, "email_id") %}
+						
+						<span style="color:#DA2128;">Address:</span>
+						{{ footer_address_1 }}, {{ footer_address_2 }}, {{ footer_address_city }}, {{ footer_address_country }}, {{footer_address_pincode}}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<span style="color:#DA2128;">Mobile:</span> {{ footer_address_phone }},{{ footer_address_fax }}
+						<span style="color:#DA2128;">Email:</span> {{ footer_address_email }},
+						{{ domain }}
+					</td>
+				</tr>
 			</table>
 			<p class="text-right">Page - {{ns.page_no}}</p>
 			<p class="text-right">Please turn over ....</p>
@@ -502,17 +504,19 @@
 			{% set footer_address_2 = frappe.db.get_value("Address", footer_address, "address_line2") %}
 			{% set footer_address_city = frappe.db.get_value("Address", footer_address, "city") %}
 			{% set footer_address_country = frappe.db.get_value("Address", footer_address, "country") %}
+			{% set footer_address_pincode = frappe.db.get_value("Address", footer_address, "pincode") %}
 			{% set footer_address_phone = frappe.db.get_value("Address", footer_address, "phone") %}
+			{% set footer_address_fax = frappe.db.get_value("Address", footer_address, "fax") %}
 			{% set footer_address_email = frappe.db.get_value("Address", footer_address, "email_id") %}
 			
 			<span style="color:#DA2128;">Address:</span>
-			{{ footer_address_1 }}, {{ footer_address_2 }}, {{ footer_address_city }}, {{ footer_address_country }}
+			{{ footer_address_1 }}, {{ footer_address_2 }}, {{ footer_address_city }}, {{ footer_address_country }}, {{footer_address_pincode}}
 		</td>
 	</tr>
 	<tr>
 		<td>
-			<span style="color:#DA2128;">Mobile:</span> {{ footer_address_phone }}
-			<span style="color:#DA2128;">Email:</span> {{ footer_address_email }}
+			<span style="color:#DA2128;">Mobile:</span> {{ footer_address_phone }},{{ footer_address_fax }}
+			<span style="color:#DA2128;">Email:</span> {{ footer_address_email }},
 			{{ domain }}
 		</td>
 	</tr>
